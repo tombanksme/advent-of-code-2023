@@ -2,9 +2,7 @@ use std::fs::File;
 use std::io;
 use std::io::BufRead;
 
-/**
- * First result
- */
+/// @TODO: Second part of task using nom?
 
 fn main() -> io::Result<()> {
     let file = File::open("input.txt")?;
@@ -28,6 +26,5 @@ fn main() -> io::Result<()> {
         })
         .sum();
 
-    println!("{}", result);
     Ok(())
 }

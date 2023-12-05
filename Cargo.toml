@@ -1,5 +1,6 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/day-01"
+    "tasks/day-01",
+    "tasks/day-02"
 ]
