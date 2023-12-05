@@ -13,9 +13,7 @@ fn main() -> io::Result<()> {
             line.unwrap()
                 .chars()
                 .filter(|char| char.is_numeric())
-                .map(|char| {
-                    char.to_digit(10).unwrap()
-                })
+                .map(|char| char.to_digit(10).unwrap())
                 .collect::<Vec<u32>>()
         })
         .map(|nums| {

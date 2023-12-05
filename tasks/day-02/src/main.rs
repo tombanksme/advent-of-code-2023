@@ -1,17 +1,23 @@
+use std::fs::File;
+use std::io;
+use std::io::BufRead;
+
+use nom::branch::alt;
 use nom::bytes::complete::tag;
 use nom::character::complete::{char, i32, space0};
 use nom::combinator::map;
 use nom::multi::separated_list0;
 use nom::sequence::tuple;
 use nom::IResult;
-use std::fs::File;
-use std::io;
-use std::io::BufRead;
-use nom::branch::alt;
 
 fn main() -> io::Result<()> {
     let file = File::open("input.txt")?;
-    let result: i32 = io::BufReader::new(file)
+    println!("Result: {:?}", challenge_two(file));
+    Ok(())
+}
+
+fn challenge_one(file: File) -> i32 {
+    io::BufReader::new(file)
         .lines()
         .into_iter()
         .map(|line| {
@@ -27,10 +33,40 @@ fn main() -> io::Result<()> {
                 game.id
             }
         })
-        .sum();
+        .sum()
+}
 
-    println!("Result: {:?}", result);
-    Ok(())
+fn challenge_two(file: File) -> i32 {
+    io::BufReader::new(file)
+        .lines()
+        .into_iter()
+        .map(|line| {
+            let (_, game) = parse_game(&*line.unwrap()).unwrap();
+
+            let red = game
+                .rounds
+                .iter()
+                .max_by(|a, b| a.red.cmp(&b.red))
+                .unwrap()
+                .red;
+
+            let green = game
+                .rounds
+                .iter()
+                .max_by(|a, b| a.green.cmp(&b.green))
+                .unwrap()
+                .green;
+
+            let blue = game
+                .rounds
+                .iter()
+                .max_by(|a, b| a.blue.cmp(&b.blue))
+                .unwrap()
+                .blue;
+
+            red * green * blue
+        })
+        .sum()
 }
 
 #[derive(Debug)]
